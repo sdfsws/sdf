@@ -7,8 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
-                'resources/css/app.css',
-                'resources/js/app.js',
+                'resources/js/app.js', // قم بإزالة 'resources/css/app.css' إذا لم يكن موجوداً
             ],
             refresh: true,
         }),
@@ -23,8 +22,8 @@ export default defineConfig({
     ],
     build: {
         manifest: true,
-        outDir: 'public/build/.vite',
-      },
+        outDir: 'public/build', // تأكد من أن هذا هو المسار الصحيح
+    },    
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
