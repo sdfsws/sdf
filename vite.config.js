@@ -20,6 +20,10 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        manifest: true,
+        outDir: 'public/build', // Make sure this path matches your setup
+      },
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
