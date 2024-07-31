@@ -5,7 +5,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "start": "vite preview"
+    },
+    "dependencies": {
     },
     "dependencies": {
     },
@@ -20,3 +23,4 @@
         "vue": "^3.2.37"
     }
 }
+
