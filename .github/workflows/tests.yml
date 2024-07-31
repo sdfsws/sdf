@@ -1,60 +1,36 @@
-name: Tests
+name: Run Tests
 
-on:
-  push:
-    branches:
-      - master
-      - '*.x'
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'
-
-permissions:
-  contents: read
+on: [push, pull_request]
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.2, 8.3]
-
-    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-          coverage: none
-
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
-
-      - name: Install Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Use the version compatible with your project
+          node-version: '20'  # Update to the latest Node.js version
 
       - name: Install Node.js dependencies
         run: npm install
-        working-directory: ./ # Adjust if package.json is in a subdirectory
 
-      - name: Build assets with Vite
+      - name: Run Node.js build
         run: npm run build
-        working-directory: ./ # Adjust if build command or Vite config is in a subdirectory
 
-      - name: Copy environment file
-        run: cp .env.example .env
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'  # Ensure this is the PHP version you want to use
 
-      - name: Generate app key
-        run: php artisan key:generate
+      - name: Install PHP dependencies
+        run: composer install
 
-      - name: Execute tests
+      - name: Run PHP tests
         run: vendor/bin/phpunit
+
+      - name: Run Node.js tests
+        run: npm test
