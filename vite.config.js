@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
@@ -22,7 +23,7 @@ export default defineConfig({
     ],
     build: {
         manifest: true,
-        outDir: 'public/build', // Make sure this path matches your setup
+        outDir: 'public/build',
       },
     resolve: {
         alias: {

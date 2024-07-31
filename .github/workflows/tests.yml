@@ -40,15 +40,15 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # or the version used in your project
+          node-version: '18' # Use the version compatible with your project
 
       - name: Install Node.js dependencies
         run: npm install
-        working-directory: ./ # adjust if your package.json is in a subdirectory
+        working-directory: ./ # Adjust if package.json is in a subdirectory
 
       - name: Build assets with Vite
         run: npm run build
-        working-directory: ./ # adjust if your build command or Vite configuration is in a subdirectory
+        working-directory: ./ # Adjust if build command or Vite config is in a subdirectory
 
       - name: Copy environment file
         run: cp .env.example .env
