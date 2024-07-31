@@ -1,5 +1,5 @@
-<div>
 <!-- resources/views/components/flight-form.blade.php -->
+<div>
 <form action="{{ route('flights.store') }}" method="POST">
     @csrf
     <div class="form-group">

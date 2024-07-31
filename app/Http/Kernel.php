@@ -40,4 +40,14 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
     ];
+
+    protected $commands = [
+        Commands\ScrapeFlights::class,
+    ];
+    
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('scrape:flights')->daily(); // أو حسب التردد الذي تريده
+    }
+    
 }

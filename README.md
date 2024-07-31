@@ -68,9 +68,12 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # sdf
 -copy .env.example and rename it to .env
+-composer update
+-composer install
+-npm install --save-dev vite
+-composer require fabpot/goutte
 
-composer install
-touch database/database.sqlite
-php artisan key:generate
-php artisan migrate
-php artisan serve
+-touch database/database.sqlite
+-php artisan key:generate
+-php artisan migrate
+-php artisan serve

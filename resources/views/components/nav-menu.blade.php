@@ -18,13 +18,15 @@
                     <a class="nav-link" href="{{ route('clients.index') }}">Clients</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('flights.search') }}">Search Flights</a>
+                    <a class="nav-link" href="{{ route('flights.search.form') }}">Search Flights</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('yemenia.index') }}">Yemenia Flights</a>
                 </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
-                <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
