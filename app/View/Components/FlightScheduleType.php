@@ -1,7 +1,6 @@
 <?php
 
-// src/Form/FlightScheduleType.php
-namespace App\Form;
+namespace App\View\Components;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

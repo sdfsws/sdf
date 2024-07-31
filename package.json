@@ -1,9 +1,14 @@
 {
+    "name": "sdf",
+    "version": "1.0.0",
     "private": true,
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "start": "vite preview"
+    },
+    "dependencies": {
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
@@ -16,3 +21,4 @@
         "vue": "^3.2.37"
     }
 }
+
