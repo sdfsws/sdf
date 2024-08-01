@@ -48,8 +48,9 @@ class FlightSearchController extends Controller
     
     public function showSearchForm()
     {
-        return view('flights.search-form'); // تأكد من أن لديك view باسم flights/search-form.blade.php
+        return view('flights.search-form');
     }
+    
     public function showForm()
     {
         // استرجع مواقع الطيران من قاعدة البيانات أو من مصدر البيانات

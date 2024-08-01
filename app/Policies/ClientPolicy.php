@@ -27,10 +27,15 @@ class ClientPolicy
     /**
      * Determine whether the user can create models.
      */
+
+    
     public function create(User $user): bool
     {
-        return true; // أو وضع الشرط المناسب
+        //return true;
+
+        return $user->hasRole('admin'); // Allow only admins to create clients
     }
+    
 
     /**
      * Determine whether the user can update the model.
