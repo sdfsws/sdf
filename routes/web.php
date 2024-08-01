@@ -21,14 +21,11 @@ Route::get('/yemenia', [YemeniaController::class, 'index'])->name('yemenia.index
 Route::get('/yemenia/search', [FlightScheduleController::class, 'scrapeFlightSchedules'])->name('yemenia.search');
 Route::get('/yemenia/all-flights', [FlightScheduleController::class, 'index'])->name('yemenia.all_flights');
 
-// Flight management routes
-Route::resource('flights', FlightController::class);
 
-// Client management routes
-Route::resource('clients', ClientController::class);
 
 // Flight search routes
 Route::get('/flights/search-form', [FlightSearchController::class, 'showSearchForm'])->name('flights.search.form');
+
 Route::get('/flights/search', [FlightSearchController::class, 'search'])->name('flights.search');
 
 // Authentication routes
@@ -45,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::post('/users/{user}', [UserController::class, 'update'])->name('users.update');
 });
-
+Route::middleware(['auth'])->group(function () {
+    Route::resource('flights', FlightController::class);
+    Route::resource('clients', ClientController::class);
+});
 // Home route
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

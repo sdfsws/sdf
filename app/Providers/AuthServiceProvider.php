@@ -20,9 +20,9 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Flight::class => FlightPolicy::class,
         Client::class => ClientPolicy::class,
-        'App\Models\User' => 'App\Policies\AdminPolicy',
-
+        User::class => AdminPolicy::class,
     ];
+    
 
     /**
      * Register any authentication / authorization services.
