@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,5 +19,10 @@ class Flight extends Model
     public function clients()
     {
         return $this->belongsToMany(Client::class);
+    }
+
+    public function desiredFlights()
+    {
+        return $this->hasMany(DesiredFlight::class);
     }
 }

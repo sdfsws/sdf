@@ -23,6 +23,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('yemenia.index') }}">Yemenia Flights</a>
                 </li>
+                
+                <!-- إضافة الرابط لاستعلامات Google Flights API -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('googleflight.index') }}">Google Flights</a>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

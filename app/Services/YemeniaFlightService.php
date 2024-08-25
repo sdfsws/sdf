@@ -23,7 +23,7 @@ class YemeniaFlightService
 
         try {
             $response = $this->client->request('GET', $url);
-            
+
             // Check the HTTP status code
             $statusCode = $response->getStatusCode();
             if ($statusCode !== 200) {
@@ -36,18 +36,23 @@ class YemeniaFlightService
             // Extract flight details using updated selectors
             $flights = $crawler->filter('table.table-striped tbody tr')->each(function (Crawler $node) {
                 return [
-                    'flight_number' => $node->filter('td:nth-of-type(1) strong')->text(),
-                    'departure' => $node->filter('td:nth-of-type(2) p')->text(),
-                    'departure_time' => $node->filter('td:nth-of-type(3) p')->text(),
-                    'arrival_time' => $node->filter('td:nth-of-type(4) p')->text(),
+                    'flight_number' => trim($node->filter('td:nth-of-type(1) strong')->text()),
+                    'from' => trim($node->filter('td:nth-of-type(2) p')->text()),
+                    'departure_time' => trim($node->filter('td:nth-of-type(3) p')->text()),
+                    'arrival_time' => trim($node->filter('td:nth-of-type(4) p')->text()),
                 ];
             });
+
+            // If no flights are found, return a message
+            if (empty($flights)) {
+                return ['error' => 'No flights found for the selected criteria.'];
+            }
 
             return $flights;
         } catch (\Exception $e) {
             // Log the error and return a user-friendly message
             \Log::error('Flight search error: ' . $e->getMessage());
-            return ['error' => 'Unable to fetch flight data. Please try again later.'];
+            return ['error' => 'Unable to fetch flight data. Please try again later. Error: ' . $e->getMessage()];
         }
     }
 }

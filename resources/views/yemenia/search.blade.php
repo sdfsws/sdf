@@ -6,38 +6,31 @@
     <h1>Search for Flights</h1>
     <form action="{{ route('yemenia.search') }}" method="GET">
         <div class="form-group">
-            <label for="departure_city">Departure City</label>
-            <select name="departure_city" id="departure_city" class="form-control" aria-label="Select departure city" required>
+            <label for="from">Departure City</label>
+            <select name="from" id="from" class="form-control" aria-label="Select departure city" required>
+                <option value="">Select departure city</option>
                 @foreach($departureCities as $city)
                     <option value="{{ $city->code }}">{{ $city->name }}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
-            <label for="destination_city">Destination City</label>
-            <select name="destination_city" id="destination_city" class="form-control" aria-label="Select destination city" required>
+            <label for="to">Destination City</label>
+            <select name="to" id="to" class="form-control" aria-label="Select destination city" required>
+                <option value="">Select destination city</option>
                 @foreach($destinationCities as $city)
                     <option value="{{ $city->code }}">{{ $city->name }}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
-            <label for="travel_date">Travel Date</label>
-            <input type="date" name="travel_date" id="travel_date" class="form-control" aria-required="true" required>
+            <label for="date">Travel Date</label>
+            <input type="date" name="date" id="date" class="form-control" aria-required="true" required>
         </div>
         <button type="submit" class="btn btn-primary">Search Flights</button>
     </form>
 
-    @if(session('error'))
-        <div class="alert alert-danger mt-3">
-            <strong>Error:</strong> {{ session('error') }}
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="alert alert-success mt-3">
-            <strong>Success:</strong> {{ session('success') }}
-        </div>
-    @endif
+    <!-- Add a button to go back to the main page -->
+    <a href="{{ route('yemenia.index') }}" class="btn btn-secondary mt-3">Back to Main Page</a>
 </div>
 @endsection

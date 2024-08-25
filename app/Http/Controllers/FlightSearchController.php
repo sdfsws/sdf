@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Location;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpClient\Exception\ClientException;
-use Symfony\Component\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 class FlightSearchController extends Controller
 {
@@ -39,7 +40,7 @@ class FlightSearchController extends Controller
     
         } catch (ClientException $e) {
             return response()->json(['error' => 'Client error occurred: ' . $e->getMessage()], 400);
-        } catch (TransportExceptionInterface $e) {
+        } catch (TransportException $e) {
             return response()->json(['error' => 'Transport error occurred: ' . $e->getMessage()], 503);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
@@ -59,5 +60,4 @@ class FlightSearchController extends Controller
         // عرض النموذج
         return view('flight-search', ['locations' => $locations]);
     }
-    
 }

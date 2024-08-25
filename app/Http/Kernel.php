@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
     
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('scrape:flights')->daily(); // أو حسب التردد الذي تريده
+        $schedule->command('scrape:flights')->dailyAt('08:00');
     }
     
 }

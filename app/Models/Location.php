@@ -20,9 +20,4 @@ class Location extends Model
         'type' => 'string',
     ];
 
-    // Example of defining relationships if applicable
-    // public function flights()
-    // {
-    //     return $this->hasMany(Flight::class);
-    // }
 }

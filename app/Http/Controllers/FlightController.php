@@ -27,10 +27,8 @@ class FlightController extends Controller
 
     public function store(Request $request)
     {
-        // Authorization check
         $this->authorize('create', Flight::class);
 
-        // Validate request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'departure' => 'required|string|max:255',
@@ -38,11 +36,9 @@ class FlightController extends Controller
             'departure_time' => 'required|date_format:Y-m-d\TH:i',
         ]);
 
-        // Create a new flight record
         Flight::create(array_merge($validatedData, ['user_id' => $request->user()->id]));
 
-        // Redirect to the flights index with a success message
-        return redirect()->route('flights.index')->with('status', 'Flight booked successfully!');
+        return redirect()->route('flights.index')->with('success', 'Flight booked successfully!');
     }
 
     public function show(Flight $flight)
@@ -70,15 +66,14 @@ class FlightController extends Controller
 
         $flight->update($validatedData);
 
-        // Redirect with success message
-        return redirect()->route('flights.index')->with('status', 'Flight updated successfully!');
+        return redirect()->route('flights.index')->with('success', 'Flight updated successfully!');
     }
 
     public function destroy(Flight $flight)
     {
         $this->authorize('delete', $flight);
         $flight->delete();
-        return redirect()->route('flights.index')->with('status', 'Flight deleted successfully!');
+        return redirect()->route('flights.index')->with('success', 'Flight deleted successfully!');
     }
 
     public function search(Request $request)

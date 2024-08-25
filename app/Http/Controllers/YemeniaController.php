@@ -1,68 +1,40 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Location;
-use App\Models\Flight;
-use Carbon\Carbon;
+use Symfony\Component\HttpClient\HttpClient;
+use Illuminate\Support\Facades\Log;
+use App\Services\FlightService;
 
 class YemeniaController extends Controller
 {
-    public function index()
+    protected $flightService;
+
+    public function __construct(FlightService $flightService)
     {
-
-        
-        // Retrieve all locations
-        $locations = Location::all(['name', 'code']); 
-
-        // Retrieve all flights for today
-        $today = Carbon::now()->format('Y-m-d');
-        $flightsToday = Flight::whereDate('departure_time', $today)->get(); 
-
-        // Debugging information
-        $debuggingInfo = [
-            'today' => $today,
-            'flightsCount' => $flightsToday->count(),
-            'flights' => $flightsToday
-        ];
-
-        return view('yemenia.index', [
-            'locations' => $locations,
-            'flightsToday' => $flightsToday,
-            'debuggingInfo' => $debuggingInfo // Pass debugging information to the view
-        ]);
+        $this->flightService = $flightService;
     }
 
-    public function search(Request $request)
+    public function allFlights()
     {
-        $from = $request->input('from');
-        $to = $request->input('to');
-        $date = $request->input('date');
+        $url = "https://yemenia.com/flights";
+        $flights = $this->fetchFlights($url);
+        return view('yemenia.all_flights', ['flights' => $flights]);
+    }
 
-        // Get the current date if no date is provided
-        $date = $date ?: Carbon::now()->format('Y-m-d');
-
-        $query = Flight::query();
-        
-        if ($from) {
-            $query->where('departure_code', $from);
+    protected function fetchFlights(string $url): array
+    {
+        try {
+            $client = HttpClient::create();
+            $response = $client->request('GET', $url);
+            $content = $response->getContent();
+            // تسجيل محتوى الاستجابة للتحقق من صحته
+            Log::info('Fetched content: ' . $content);
+        } catch (\Exception $e) {
+            Log::error('Error fetching flights: ' . $e->getMessage());
+            return ['error' => 'Error fetching flights: ' . $e->getMessage()];
         }
-        
-        if ($to) {
-            $query->where('arrival_code', $to);
-        }
 
-        $query->whereDate('departure_time', $date);
-
-        $flights = $query->get(); // Retrieve the collection of flights
-
-        // Retrieve all locations to use in the view
-        $locations = Location::all(['name', 'code']); 
-
-        return view('yemenia.results', [
-            'flights' => $flights,
-            'locations' => $locations
-        ]);
+        // تأكد من وجود هذه الدالة في FlightService وأنها تعمل بشكل صحيح
+        return $this->flightService->allFlightsToday($content);
     }
 }
