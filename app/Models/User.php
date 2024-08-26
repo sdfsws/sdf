@@ -33,26 +33,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);
     }
 
     public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
+{
+    return $this->role === $role; // أو قد تحتاج إلى استخدام طريقة مختلفة بناءً على المكتبة التي تستخدمها
+}
 
 }
