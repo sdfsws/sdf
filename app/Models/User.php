@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,18 +27,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
+    // app/Models/User.php
 
     public function hasRole($role)
-    {
-        return $this->roles()->where('name', $role)->exists();
-    }
+{
+    return $this->role === $role; // أو قد تحتاج إلى استخدام طريقة مختلفة بناءً على المكتبة التي تستخدمها
+}
 
-    public function desiredFlights()
-    {
-        return $this->hasMany(DesiredFlight::class);
-    }
 }

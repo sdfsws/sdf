@@ -58,20 +58,8 @@ class GoogleFlightController extends Controller
             // Send the request to SerpAPI
             $response = Http::get('https://serpapi.com/search.json', $params);
 
-            if ($response->failed()) {
-                Log::error('Google Flights API Request Failed', [
-                    'status_code' => $response->status(),
-                    'body' => $response->body(),
-                    'params' => $params
-                ]);
-
-                return response()->json([
-                    'error' => $response->body(),
-                    'status_code' => $response->status(),
-                ], $response->status());
-            }
-
             $responseData = $response->json();
+            //dd($responseData);
             Log::info('Google Flights API Response', ['data' => $responseData]);
 
             // Validate response structure
@@ -107,9 +95,11 @@ class GoogleFlightController extends Controller
         }
     }
 
+
     public function index()
     {
         // Display the search form
         return view('googleflight.search');
     }
+
 }

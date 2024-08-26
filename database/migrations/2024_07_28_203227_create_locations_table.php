@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('locations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name'); // عمود الاسم
-            $table->string('code')->default(''); // عمود الرمز مع قيمة افتراضية فارغة
-            $table->string('type')->nullable(); // عمود النوع (اختياري)
-            $table->timestamps(); // أعمدة التوقيتات
+            $table->id(); // Primary key
+            $table->string('name'); // Name field
+            $table->string('code')->default(''); // Code field with a default empty value
+            $table->string('type')->nullable(); // Type field, which can be null
+            $table->timestamps(); // Created at and Updated at timestamps
         });
     }
 

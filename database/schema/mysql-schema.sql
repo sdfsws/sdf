@@ -4,6 +4,24 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `bookings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bookings` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flight_id` bigint unsigned NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `bookings_token_unique` (`token`),
+  KEY `bookings_flight_id_foreign` (`flight_id`),
+  KEY `bookings_user_id_foreign` (`user_id`),
+  CONSTRAINT `bookings_flight_id_foreign` FOREIGN KEY (`flight_id`) REFERENCES `flights` (`id`),
+  CONSTRAINT `bookings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `cache`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -52,6 +70,22 @@ CREATE TABLE `clients` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `clients_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `desired_flights`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `desired_flights` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `flight_id` bigint unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `desired_flights_user_id_foreign` (`user_id`),
+  KEY `desired_flights_flight_id_foreign` (`flight_id`),
+  CONSTRAINT `desired_flights_flight_id_foreign` FOREIGN KEY (`flight_id`) REFERENCES `flights` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `desired_flights_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `failed_jobs`;
@@ -123,6 +157,7 @@ CREATE TABLE `locations` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `code` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -257,3 +292,5 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (5,'2024_07_24_2035
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (6,'2024_07_24_204855_create_client_flight_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (7,'2024_07_25_010436_create_permission_tables',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (8,'2024_07_28_203227_create_locations_table',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (9,'2024_08_18_172622_desired_flights',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (10,'2024_08_25_192301_create_bookings_table',2);

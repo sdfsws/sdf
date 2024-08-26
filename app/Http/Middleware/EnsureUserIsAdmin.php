@@ -4,23 +4,38 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class EnsureUserIsAdmin
 {
-    public function handle(Request $request, Closure $next, array $allowedRoles = ['admin', 'superadmin']): JsonResponse
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string[]  ...$allowedRoles
+     * @return mixed
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */    public function handle(Request $request, Closure $next)
     {
-        if (!$this->isUserAuthorized($allowedRoles)) {
+        if (!Auth::user() || !Auth::user()->hasRole('admin')) {
             throw new AuthorizationException('You do not have permission to access this resource.');
         }
 
         return $next($request);
     }
 
+    /**
+     * Check if the authenticated user is authorized.
+     *
+     * @param  array  $allowedRoles
+     * @return bool
+     */
     protected function isUserAuthorized(array $allowedRoles): bool
     {
-        return Auth::check() && in_array(Auth::user()->getRoleName(), $allowedRoles);
+        return Auth::check() && Auth::user()->hasAnyRole($allowedRoles);
     }
+    
 }

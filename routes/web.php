@@ -13,7 +13,7 @@ use App\Http\Controllers\FlightComparisonController;
 use App\Http\Controllers\DesiredFlightController;
 use App\Http\Controllers\GoogleFlightController;
 use App\Http\Controllers\BookingController;
-
+use App\Http\Controllers\HomeController;
 
 
 // Default landing page route
@@ -36,7 +36,6 @@ Route::get('/googleflight/results', [GoogleFlightController::class, 'search'])->
 Route::get('/booking/show', [BookingController::class, 'show'])->name('booking.show');
 Route::post('/booking/{flight_id}', [BookingController::class, 'book'])->name('booking.book');
 Route::post('/booking/token/{token}', [BookingController::class, 'bookWithToken'])->name('booking.book.token');
-Route::post('/booking/book', [BookingController::class, 'book'])->name('booking.book');
 
 
 // Route to show booking details using a token
@@ -60,10 +59,12 @@ Route::prefix('flights')->name('flights.')->group(function () {
 Auth::routes();
 
 // Admin routes
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    // Add other admin-specific routes here
+    Route::get('/admin/manage-users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
+    Route::post('/admin/update-user/{user}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
 });
+
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
@@ -74,4 +75,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Home route
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

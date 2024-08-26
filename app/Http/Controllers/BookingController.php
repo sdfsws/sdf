@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Booking; // Import Booking model
-use App\Models\Flight; // Import Flight model
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str; // For generating unique tokens
+
 
 class BookingController extends Controller
 {
